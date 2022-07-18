@@ -32,14 +32,27 @@ class PolygonPainter extends CustomPainter {
     canvas.translate(size.width / 2, size.height / 2);
     // scale canvas
     double scale;
+    // sin
     // 0->8:0.4->0.8 8->12:0.8->0.4 12->20:0.4->1
     if (sides.ceil() <= 8) {
-      scale = 0.4 + 0.05 * sides;
+      double angle = sides * pi / 8 - pi / 2;
+      scale = sin(angle) / 5 + 0.6;
     } else if (sides.ceil() <= 12) {
-      scale = 0.8 - 0.1 * (sides - 8);
+      double angle = pi / 2 - (sides - 8) * pi / 4;
+      scale = sin(angle) / 5 + 0.6;
     } else {
-      scale = 0.4 + 0.6 / 8 * (sides - 12);
+      double angle = (sides - 12) * pi / 8 - pi / 2;
+      scale = sin(angle) / 3.333 + 0.7;
     }
+    // line
+    // 0->8:0.4->0.8 8->12:0.8->0.4 12->20:0.4->1
+    // if (sides.ceil() <= 8) {
+    //   scale = 0.4 + 0.05 * sides;
+    // } else if (sides.ceil() <= 12) {
+    //   scale = 0.8 - 0.1 * (sides - 8);
+    // } else {
+    //   scale = 0.4 + 0.6 / 8 * (sides - 12);
+    // }
     print('scale:$scale,sides:$sides');
     // 偶变奇，斜率0.1，奇数变偶数，斜率-0.04，初始scale 0.4
     // double k1 = 0.5;
