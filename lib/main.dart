@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:polygon/polygon_painter.dart';
 import 'package:polygon/circle2line_painter.dart';
+import 'package:polygon/line_loading_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -95,15 +96,15 @@ class _MyHomePageState extends State<MyHomePage>
                       width: canvasWidth,
                       height: canvasWidth,
                       child: CustomPaint(
-                        // painter:
-                        //     Circle2LinePainter(radius: 100, progress: sides),
-                        painter: PolygonPainter(
-                          sides: sides,
-                          radius: canvasWidth / 2,
-                          showDots: showDots,
-                          showDiagonal: showDiagonal,
-                          progress: progress,
-                        ),
+                        painter: LineLoadingPainter(progress: sides),
+                        // Circle2LinePainter(radius: 100, progress: sides),
+                        // painter: PolygonPainter(
+                        //   sides: sides,
+                        //   radius: canvasWidth / 2,
+                        //   showDots: showDots,
+                        //   showDiagonal: showDiagonal,
+                        //   progress: progress,
+                        // ),
                       ),
                     ),
                     const SizedBox(
