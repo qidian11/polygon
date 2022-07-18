@@ -14,10 +14,10 @@ class Circle2LinePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.black
+      ..color = const Color(0xFF2C343A)
       ..strokeWidth = 4;
     canvas.translate(size.width / 2, size.height / 2);
-    Offset p1 = Offset(0, 0);
+    Offset p1 = const Offset(0, 0);
     Offset p2 = Offset(lineLength - 4, 0);
     for (int i = 0; i < lineNum; i++) {
       canvas.drawLine(p1, p2, paint);
