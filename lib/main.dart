@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:polygon/polygon_painter.dart';
 import 'package:polygon/circle2line_painter.dart';
 import 'package:polygon/line_loading_painter.dart';
+import 'package:polygon/paper_painter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -92,11 +93,14 @@ class _MyHomePageState extends State<MyHomePage>
                     const SizedBox(
                       height: 100,
                     ),
-                    SizedBox(
+                    Container(
                       width: canvasWidth,
                       height: canvasWidth,
+                      decoration: const BoxDecoration(),
+                      clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: LineLoadingPainter(progress: sides),
+                        painter: PaperPainter(offset: sides),
+                        // painter: LineLoadingPainter(progress: sides),
                         // Circle2LinePainter(radius: 100, progress: sides),
                         // painter: PolygonPainter(
                         //   sides: sides,
@@ -152,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage>
                       height: 20,
                       child: Slider.adaptive(
                         value: sides,
-                        max: 20,
+                        max: 200,
                         mouseCursor: SystemMouseCursors.basic,
                         activeColor: const Color(0xFF2C343A),
                         inactiveColor: const Color(0xFF56596B),

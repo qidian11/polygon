@@ -77,7 +77,7 @@ class PolygonPainter extends CustomPainter {
           points[i % points.length], points[(i + 1) % points.length], paint);
     }
     paint.color = const Color(0xFF47484B);
-    paint.color = const Color(0xFF99ACC2);
+    // paint.color = const Color(0xFF99ACC2);
 
     // draw diagonal
     if (showDiagonal) {
