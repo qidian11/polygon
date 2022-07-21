@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
+import 'package:polygon/util/index.dart';
 
 class LineLoadingPage extends StatefulWidget {
   const LineLoadingPage({Key? key}) : super(key: key);
@@ -145,6 +146,15 @@ class _LineLoadingPageState extends State<LineLoadingPage>
                     )
                   ]),
             ),
+          ),
+          Positioned(
+            top: 100,
+            left: 100,
+            child: GestureDetector(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  NavigationUtil.instance.pop();
+                }),
           ),
         ],
       ),

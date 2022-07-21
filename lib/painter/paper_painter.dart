@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'my_painter.dart';
 import 'dart:math';
 
-class PaperPainter extends CustomPainter {
+class PaperPainter extends MyPainter {
   double paperNum;
   double paperHeight;
-  double offset;
+  double progress;
   double maxProgress;
 
   double get perspectiveHeight => paperHeight - paperHeight / 5;
@@ -12,8 +13,8 @@ class PaperPainter extends CustomPainter {
   PaperPainter({
     this.paperHeight = 300,
     this.paperNum = 9,
-    this.offset = 0.0,
-    this.maxProgress = 20.0,
+    this.progress = 0.0,
+    this.maxProgress = 200.0,
   }) {
     if (paperNum % 2 == 0) {
       paperNum += 1;
@@ -35,7 +36,7 @@ class PaperPainter extends CustomPainter {
     //         -size.width / 2, -size.height / 5, size.width / 2, size.height / 5),
     //     paint);
     // paint.color = const Color(0xFF2C343A);
-    List<List<Offset>> paperPointsList = getPaperPointsList(offset, size);
+    List<List<Offset>> paperPointsList = getPaperPointsList(progress, size);
     for (int i = 0; i < paperPointsList.length; i++) {
       Offset p1 = paperPointsList[i][0];
       Offset pP1 = paperPointsList[i][1];
@@ -121,6 +122,6 @@ class PaperPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(PaperPainter oldDelegate) {
-    return oldDelegate.offset != offset;
+    return oldDelegate.progress != progress;
   }
 }

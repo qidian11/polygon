@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
+import 'package:polygon/util/index.dart';
 
 class PolygonPage extends StatefulWidget {
   const PolygonPage({Key? key}) : super(key: key);
@@ -74,7 +75,7 @@ class _PolygonPageState extends State<PolygonPage>
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: PaperPainter(offset: sides),
+                        painter: PaperPainter(progress: sides),
                         // painter: LineLoadingPainter(progress: sides),
                         // Circle2LinePainter(radius: 100, progress: sides),
                         // painter: PolygonPainter(
@@ -154,6 +155,15 @@ class _PolygonPageState extends State<PolygonPage>
                     )
                   ]),
             ),
+          ),
+          Positioned(
+            top: 100,
+            left: 100,
+            child: GestureDetector(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  NavigationUtil.instance.pop();
+                }),
           ),
         ],
       ),

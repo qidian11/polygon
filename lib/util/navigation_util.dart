@@ -25,6 +25,10 @@ class NavigationUtil extends RouteObserver {
     navigatorState.pushNamed(routeName, arguments: arguments);
   }
 
+  void pop() {
+    navigatorState.pop();
+  }
+
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
     super.didPop(route, previousRoute);

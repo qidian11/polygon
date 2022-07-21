@@ -1,22 +1,25 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'my_painter.dart';
 import 'dart:math';
 
-class PolygonPainter extends CustomPainter {
+class PolygonPainter extends MyPainter {
   double radius;
-  double sides;
+  double progress;
   bool showDiagonal;
   bool showDots;
   double maxSides = 20.0;
-  double progress;
+  double dotProgress;
+  double maxProgress;
   int dotsNum = 10;
   double dotRadius = 3.0;
   List<Offset> points = [];
   PolygonPainter(
-      {this.sides = 7.0,
+      {this.progress = 7.0,
       this.radius = 100,
-      this.progress = 0,
+      this.dotProgress = 0,
+      this.maxProgress = 20.0,
       this.showDiagonal = true,
       this.showDots = false});
   @override
@@ -31,23 +34,23 @@ class PolygonPainter extends CustomPainter {
       ..strokeWidth = 1
       ..isAntiAlias = true;
 
-    List<Offset> points = getPolygonPoints(sides);
+    List<Offset> points = getPolygonPoints(progress);
     canvas.translate(size.width / 2, size.height / 2);
     // scale canvas
     double scale;
-    // sin
+    // sin curve
     // 0->8:0.4->0.8 8->12:0.8->0.4 12->20:0.4->1
-    if (sides.ceil() <= 8) {
-      double angle = sides * pi / 8 - pi / 2;
+    if (progress.ceil() <= 8) {
+      double angle = progress * pi / 8 - pi / 2;
       scale = sin(angle) / 5 + 0.6;
-    } else if (sides.ceil() <= 12) {
-      double angle = pi / 2 - (sides - 8) * pi / 4;
+    } else if (progress.ceil() <= 12) {
+      double angle = pi / 2 - (progress - 8) * pi / 4;
       scale = sin(angle) / 5 + 0.6;
     } else {
-      double angle = (sides - 12) * pi / 8 - pi / 2;
+      double angle = (progress - 12) * pi / 8 - pi / 2;
       scale = sin(angle) / 3.333 + 0.7;
     }
-    // line
+    // line curve
     // 0->8:0.4->0.8 8->12:0.8->0.4 12->20:0.4->1
     // if (sides.ceil() <= 8) {
     //   scale = 0.4 + 0.05 * sides;
@@ -56,7 +59,8 @@ class PolygonPainter extends CustomPainter {
     // } else {
     //   scale = 0.4 + 0.6 / 8 * (sides - 12);
     // }
-    print('scale:$scale,sides:$sides');
+    // print('scale:$scale,sides:$progress');
+    // odd curve
     // 偶变奇，斜率0.1，奇数变偶数，斜率-0.04，初始scale 0.4
     // double k1 = 0.5;
     // double k2 = -0.44;
@@ -79,8 +83,8 @@ class PolygonPainter extends CustomPainter {
       canvas.drawLine(
           points[i % points.length], points[(i + 1) % points.length], paint);
     }
-    paint.color = const Color(0xFF47484B);
-    // paint.color = const Color(0xFF99ACC2);
+    // paint.color = const Color(0xFF47484B);
+    paint.color = const Color(0xFF99ACC2);
 
     // draw diagonal
     if (showDiagonal) {
@@ -99,7 +103,7 @@ class PolygonPainter extends CustomPainter {
       PathStorage pathStorage = PathStorage();
       if (pathStorage.points.isEmpty) {
         pathStorage.points = points;
-        int maxLineNum = sides * (sides - 1) ~/ 2;
+        int maxLineNum = progress * (progress - 1) ~/ 2;
         pathStorage.pathList = pathStorage.getPathList(maxLineNum, dotsNum);
       }
       List<Path> pathList = pathStorage.pathList;
@@ -198,7 +202,7 @@ class PolygonPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(PolygonPainter oldDelegate) {
-    return oldDelegate.sides != sides ||
+    return oldDelegate.progress != progress ||
         oldDelegate.showDots != showDots ||
         oldDelegate.showDiagonal != showDiagonal ||
         oldDelegate.progress != progress;

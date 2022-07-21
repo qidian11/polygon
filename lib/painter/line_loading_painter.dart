@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'my_painter.dart';
 import 'dart:math';
 
-class LineLoadingPainter extends CustomPainter {
+class LineLoadingPainter extends MyPainter {
   double lineNum;
   double totalLength;
   double progress;
@@ -37,11 +38,11 @@ class LineLoadingPainter extends CustomPainter {
     double waveStartX = progress / maxProgress * (waveLength + totalLength) +
         (-totalLength / 2 - waveLength);
     for (int i = 0; i < lineNum; i++) {
+      // part line start and end points
       p1 = Offset(-totalLength / 2 + lineLength * i, 0);
       p2 = Offset(p1.dx + lineLength - lineSpace, 0);
       centerX = (p1.dx + p1.dx + lineLength) / 2;
-      // print(
-      //     'i:$i,centerX:$centerX,waveStartX:$waveStartX,waveStartX + waveLength:${waveStartX + waveLength}');
+
       if (waveStartX < centerX && centerX < (waveStartX + waveLength)) {
         height =
             -sin((centerX - waveStartX) * 2 * pi / waveLength) * waveHeight;
@@ -51,12 +52,6 @@ class LineLoadingPainter extends CustomPainter {
             pi /
             waveLength;
         angle = atan(gradient);
-        // } else if (waveStartX < p1.dx && p1.dx < (waveStartX + waveLength)) {
-        //   height = -sin((p1.dx - waveStartX) * pi / waveLength) * waveLength / 2;
-        //   print('${((p1.dx - waveStartX) * pi / waveLength) / pi}');
-        // } else if (waveStartX < p2.dx && p2.dx < (waveStartX + waveLength)) {
-        //   height = -sin((p2.dx - waveStartX) * pi / waveLength) * waveLength / 2;
-        //   print(((p2.dx - waveStartX) * pi / waveLength) / pi);
       } else {
         gradient = 0;
         angle = 0;
@@ -65,13 +60,14 @@ class LineLoadingPainter extends CustomPainter {
       p1 = Offset(p1.dx, height);
       p2 = Offset(p2.dx, height);
 
-      p1 = Offset(centerX - (lineLength / 2) * cos(angle),
-          height - (lineLength / 2) * sin(angle));
-      p2 = Offset(centerX + ((lineLength / 2) - lineSpace) * cos(angle),
-          height + ((lineLength / 2) - lineSpace) * sin(angle));
+      // rotate with gradient
+      {
+        p1 = Offset(centerX - (lineLength / 2) * cos(angle),
+            height - (lineLength / 2) * sin(angle));
+        p2 = Offset(centerX + ((lineLength / 2) - lineSpace) * cos(angle),
+            height + ((lineLength / 2) - lineSpace) * sin(angle));
+      }
       canvas.drawLine(p1, p2, paint);
-      // canvas.translate(p2.dx + 4, p2.dy);
-      // canvas.rotate((progress / 20.0) * 2 * pi / lineNum);
     }
   }
 

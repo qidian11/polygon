@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
+import 'package:polygon/util/index.dart';
 
 class Circle2LinePage extends StatefulWidget {
   const Circle2LinePage({Key? key}) : super(key: key);
@@ -145,6 +146,15 @@ class _Circle2LinePageState extends State<Circle2LinePage>
                     )
                   ]),
             ),
+          ),
+          Positioned(
+            top: 100,
+            left: 100,
+            child: GestureDetector(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  NavigationUtil.instance.pop();
+                }),
           ),
         ],
       ),

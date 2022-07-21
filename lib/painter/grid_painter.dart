@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 import 'dart:ui';
 
-class GridPainter extends CustomPainter {
+import 'package:polygon/painter/index.dart';
+
+class GridPainter extends MyPainter {
   double paperNum;
   double paperHeight;
   double offset;

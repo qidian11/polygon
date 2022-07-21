@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'my_painter.dart';
 import 'dart:math';
 
 class Circle2LinePainter extends CustomPainter {
   double radius;
   double lineNum;
   double progress;
-  Circle2LinePainter({
-    this.radius = 50,
-    this.lineNum = 20,
-    this.progress = 3.0,
-  });
+  double maxProgress;
+  Circle2LinePainter(
+      {this.radius = 50,
+      this.lineNum = 20,
+      this.progress = 3.0,
+      this.maxProgress = 20.0});
   double get lineLength => 2 * pi * radius / lineNum;
   @override
   void paint(Canvas canvas, Size size) {
-    print('size.width:${size.width}');
     if (radius * 2 * pi > size.width) {
       radius = size.width / 2 / (2 * pi);
     }
@@ -26,7 +27,7 @@ class Circle2LinePainter extends CustomPainter {
     for (int i = 0; i < lineNum; i++) {
       canvas.drawLine(p1, p2, paint);
       canvas.translate(p2.dx + 4, p2.dy);
-      canvas.rotate((progress / 20.0) * 2 * pi / lineNum);
+      canvas.rotate((progress / maxProgress) * 2 * pi / lineNum);
     }
   }
 
