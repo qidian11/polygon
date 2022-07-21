@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:polygon/polygon_painter.dart';
-import 'package:polygon/circle2line_painter.dart';
-import 'package:polygon/line_loading_painter.dart';
-import 'package:polygon/paper_painter.dart';
+import 'package:polygon/painter/index.dart';
+import 'package:polygon/util/index.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +17,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
+      navigatorKey: CommonUtil.navigatorKey,
+      routes: NavigationUtil.configRoutes,
       home: const MyHomePage(),
     );
   }
@@ -35,171 +35,104 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late Tween<double> _tween;
-  late AnimationController _animationController;
-  double sides = 0;
-  double progress = 0.0;
-  double maxSides = 20.0;
-  String sliderText = '0.0';
-  double canvasWidth = 500;
-  bool showDots = false;
-  bool showDiagonal = true;
-  // 是否正在滑动
-  bool isSidesChange = false;
-
+  double frameBorderWidth = 8.0;
+  Offset frameShadowOffset = const Offset(10, 0);
+  double crossAxisSpacing = 50;
+  late double width;
+  late double height;
   @override
   void initState() {
     super.initState();
-    _tween = Tween(begin: 0.0, end: 1.0);
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 60), vsync: this);
-    _animation = _tween.animate(_animationController)
-      ..addListener(() {
-        setState(() {
-          progress = _animation.value;
-        });
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _animationController.reverse();
-        }
-      });
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    width = (MediaQuery.of(context).size.width - 3 * crossAxisSpacing) / 2;
+    height = width;
   }
 
   @override
   Widget build(BuildContext context) {
     print('build');
+
+    List<Widget> widgets = getWidgets();
     return Scaffold(
-      body: Stack(
-        alignment: Alignment.center,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width / 2,
-                color: const Color(0xFFE9EFF2),
-              ),
-              Container(
-                  width: MediaQuery.of(context).size.width / 2,
-                  color: const Color(0xFFD3DBDF))
-            ],
-          ),
-          SingleChildScrollView(
-            child: Center(
-              child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      height: 100,
-                    ),
-                    Container(
-                      width: canvasWidth,
-                      height: canvasWidth,
-                      decoration: const BoxDecoration(),
-                      clipBehavior: Clip.hardEdge,
-                      child: CustomPaint(
-                        painter: PaperPainter(offset: sides),
-                        // painter: LineLoadingPainter(progress: sides),
-                        // Circle2LinePainter(radius: 100, progress: sides),
-                        // painter: PolygonPainter(
-                        //   sides: sides,
-                        //   radius: canvasWidth / 2,
-                        //   showDots: showDots,
-                        //   showDiagonal: showDiagonal,
-                        //   progress: progress,
-                        // ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 200,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show Dots'),
-                        ),
-                        Switch(
-                          value: showDots,
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true &&
-                                  sides == 20 &&
-                                  !isSidesChange) {
-                                _animationController.repeat(reverse: true);
-                                showDots = value;
-                              } else {
-                                _animationController.stop();
-                                showDots = value;
-                              }
-                            });
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show diagonal'),
-                        ),
-                        Switch(
-                          value: showDiagonal,
-                          onChanged: (value) {
-                            setState(() {
-                              showDiagonal = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      width: 500,
-                      height: 20,
-                      child: Slider.adaptive(
-                        value: sides,
-                        max: 200,
-                        mouseCursor: SystemMouseCursors.basic,
-                        activeColor: const Color(0xFF2C343A),
-                        inactiveColor: const Color(0xFF56596B),
-                        onChanged: (_value) {
-                          print("sides:$sides");
-                          print("onChanged : $_value");
-                          updateSlider(_value, "onChanged : $_value",
-                              isChange: true);
-                        },
-                        onChangeStart: (_value) {
-                          print("onChangeStart : $_value");
-                          updateSlider(_value, "onChangeStart : $_value",
-                              isChange: true);
-                        },
-                        onChangeEnd: (_value) {
-                          print("onChangeEnd : $_value");
-                          updateSlider(_value, "onChangeEnd : $_value");
-                        },
-                      ),
-                    )
-                  ]),
-            ),
-          ),
-        ],
+      body: GridView(
+        padding: const EdgeInsets.all(50),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            mainAxisSpacing: 25.0,
+            crossAxisSpacing: 50,
+            childAspectRatio: 1),
+        children: widgets,
       ),
     );
   }
 
-  void updateSlider(double _value, String text, {bool isChange = false}) {
-    sides = _value;
-    sliderText = text;
-    isSidesChange = isChange;
-    if (isSidesChange) {
-      showDots = false;
-      _animationController.stop();
-    }
-    if (_value == maxSides) {
-      showDots = true;
-      if (_animationController.status != AnimationStatus.forward ||
-          _animationController.status != AnimationStatus.reverse) {
-        _animationController.repeat(reverse: true);
+  List<Widget> getWidgets() {
+    List<Widget> widgets = List.generate(CommonUtil.pageList.length, (index) {
+      CustomPainter? painter =
+          CommonUtil.page2painter[CommonUtil.pageList[index]];
+      if (painter != null) {
+        return GestureDetector(
+          onTap: () {
+            NavigationUtil.instance.pushNamed(CommonUtil.pageList[index]);
+          },
+          child: Container(
+            decoration: const BoxDecoration(
+              color: Color(0xFFD3DBDF),
+            ),
+            child: Center(
+              child: Container(
+                width: 3 * width / 5,
+                height: 3 * height / 4,
+                padding: const EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                        color: const Color(0xFF2C343A),
+                        width: frameBorderWidth),
+                    boxShadow: [
+                      BoxShadow(
+                          color: Color(0xFF2C343A).withOpacity(0.78),
+                          offset: frameShadowOffset,
+                          blurRadius: 5)
+                    ]),
+                child: Container(
+                  clipBehavior: Clip.hardEdge,
+                  decoration: const BoxDecoration(),
+                  child: CustomPaint(painter: painter),
+                ),
+              ),
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Color(0xFFD3DBDF),
+          ),
+          child: Center(
+            child: Container(
+              width: 3 * width / 5,
+              height: 3 * height / 4,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(
+                      color: const Color(0xFF2C343A), width: frameBorderWidth),
+                  boxShadow: [
+                    BoxShadow(
+                        color: Color(0xFF2C343A).withOpacity(0.78),
+                        offset: frameShadowOffset,
+                        blurRadius: 5)
+                  ]),
+            ),
+          ),
+        );
       }
-    }
-    setState(() {});
+    });
+    return widgets;
   }
 }

@@ -14,14 +14,17 @@ class PolygonPainter extends CustomPainter {
   double dotRadius = 3.0;
   List<Offset> points = [];
   PolygonPainter(
-      {this.sides = 0,
+      {this.sides = 7.0,
       this.radius = 100,
-      this.progress = 0.0,
+      this.progress = 0,
       this.showDiagonal = true,
       this.showDots = false});
   @override
   void paint(Canvas canvas, Size size) {
     // print('paint');
+    if (radius > size.width / 2) {
+      radius = size.width / 2;
+    }
     Paint paint = Paint()
       ..color = const Color(0xFF47484B)
       ..style = PaintingStyle.stroke

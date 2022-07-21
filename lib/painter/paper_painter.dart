@@ -8,10 +8,7 @@ class PaperPainter extends CustomPainter {
   double maxProgress;
 
   double get perspectiveHeight => paperHeight - paperHeight / 5;
-  // 起伏宽度是总长度的1/2
-  double get waveLength => paperHeight / 2;
-  // 起伏高度是起伏宽度的1/4
-  double get waveHeight => waveLength / 4;
+
   PaperPainter({
     this.paperHeight = 300,
     this.paperNum = 9,
@@ -31,13 +28,13 @@ class PaperPainter extends CustomPainter {
     canvas.translate(size.width / 2, size.height / 2);
     double coverWidth = 4;
     // List<Path> paperPathList = getPaperPathList(progress, size);
-    paint.color = const Color(0xFF99ACC2);
+    // paint.color = const Color(0xFF99ACC2);
 
-    canvas.drawRect(
-        Rect.fromLTRB(
-            -size.width / 2, -size.height / 5, size.width / 2, size.height / 5),
-        paint);
-    paint.color = const Color(0xFF2C343A);
+    // canvas.drawRect(
+    //     Rect.fromLTRB(
+    //         -size.width / 2, -size.height / 5, size.width / 2, size.height / 5),
+    //     paint);
+    // paint.color = const Color(0xFF2C343A);
     List<List<Offset>> paperPointsList = getPaperPointsList(offset, size);
     for (int i = 0; i < paperPointsList.length; i++) {
       Offset p1 = paperPointsList[i][0];

@@ -15,11 +15,14 @@ class LineLoadingPainter extends CustomPainter {
   LineLoadingPainter(
       {this.totalLength = 500.0,
       this.lineNum = 40,
-      this.progress = 0.0,
+      this.progress = 5.0,
       this.maxProgress = 20.0,
       this.lineSpace = 4.0});
   @override
   void paint(Canvas canvas, Size size) {
+    if (totalLength > size.width) {
+      totalLength = size.width;
+    }
     Paint paint = Paint()
       ..color = const Color(0xFF2C343A)
       ..strokeWidth = 4;

@@ -8,11 +8,15 @@ class Circle2LinePainter extends CustomPainter {
   Circle2LinePainter({
     this.radius = 50,
     this.lineNum = 20,
-    this.progress = 0.0,
+    this.progress = 3.0,
   });
   double get lineLength => 2 * pi * radius / lineNum;
   @override
   void paint(Canvas canvas, Size size) {
+    print('size.width:${size.width}');
+    if (radius * 2 * pi > size.width) {
+      radius = size.width / 2 / (2 * pi);
+    }
     Paint paint = Paint()
       ..color = const Color(0xFF2C343A)
       ..strokeWidth = 4;
