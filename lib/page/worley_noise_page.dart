@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
 import 'package:polygon/util/index.dart';
 
-class PerlinNoise1dPage extends StatefulWidget {
-  const PerlinNoise1dPage({Key? key}) : super(key: key);
-  static const String sName = "PerlinNoisePage1d";
+class WorleyNoisePage extends StatefulWidget {
+  const WorleyNoisePage({Key? key}) : super(key: key);
+  static const String sName = "WorleyNoisePage";
   @override
-  State<PerlinNoise1dPage> createState() => _PerlinNoise1dPageState();
+  State<WorleyNoisePage> createState() => _WorleyNoisePageState();
 }
 
-class _PerlinNoise1dPageState extends State<PerlinNoise1dPage>
+class _WorleyNoisePageState extends State<WorleyNoisePage>
     with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   late Tween<double> _tween;
@@ -75,7 +75,7 @@ class _PerlinNoise1dPageState extends State<PerlinNoise1dPage>
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: PerlinNoise1dPainter(progress: sides),
+                        painter: WorleyNoisePainter(progress: sides),
                       ),
                     ),
                     const SizedBox(

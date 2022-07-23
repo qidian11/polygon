@@ -4,3 +4,4 @@ export 'paper_page.dart';
 export 'perlin_noise_1d_page.dart';
 export 'perlin_noise_2d_page.dart';
 export 'polygon_page.dart';
+export 'worley_noise_page.dart';

@@ -12,6 +12,7 @@ class CommonUtil {
     PerlinNoise2dPage.sName: PerlinNoise2dPainter(),
     PerlinNoise1dPage.sName: PerlinNoise1dPainter(),
     PolygonPage.sName: PolygonPainter(),
+    WorleyNoisePage.sName: WorleyNoisePainter(),
   };
   static List<String> pageList = [
     Circle2LinePage.sName,
@@ -20,5 +21,6 @@ class CommonUtil {
     PerlinNoise1dPage.sName,
     PerlinNoise2dPage.sName,
     PolygonPage.sName,
+    WorleyNoisePage.sName,
   ];
 }

@@ -73,6 +73,9 @@ class _FrameWidgetState extends State<FrameWidget>
       case PerlinNoise2dPage.sName:
         painter = PerlinNoise2dPainter();
         break;
+      case WorleyNoisePage.sName:
+        painter = WorleyNoisePainter();
+        break;
     }
     painter!.progress = progress * painter.maxProgress;
     return GestureDetector(

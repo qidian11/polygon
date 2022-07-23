@@ -31,9 +31,6 @@ class PerlinNoise2dPainter extends CustomPainter {
         } else {
           color = 0;
         }
-        if (x == 0 && y == 0) {
-          print("value:$value,color:$color");
-        }
 
         color = color;
         paint.color = Color.fromARGB(255, color, color, color);

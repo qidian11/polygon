@@ -12,6 +12,7 @@ class NavigationUtil extends RouteObserver {
     PerlinNoise1dPage.sName: (_) => const PerlinNoise1dPage(),
     PerlinNoise2dPage.sName: (_) => const PerlinNoise2dPage(),
     PolygonPage.sName: (_) => const PolygonPage(),
+    WorleyNoisePage.sName: (_) => const WorleyNoisePage(),
   };
 
   static NavigationUtil instance = NavigationUtil._internal();
