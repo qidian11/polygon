@@ -7,9 +7,10 @@ class NavigationUtil extends RouteObserver {
   static BuildContext context = CommonUtil.navigatorKey.currentContext!;
   static Map<String, WidgetBuilder> configRoutes = {
     Circle2LinePage.sName: (_) => const Circle2LinePage(),
-    GridPage.sName: (_) => const GridPage(),
     LineLoadingPage.sName: (_) => const LineLoadingPage(),
     PaperPage.sName: (_) => const PaperPage(),
+    PerlinNoise1dPage.sName: (_) => const PerlinNoise1dPage(),
+    PerlinNoise2dPage.sName: (_) => const PerlinNoise2dPage(),
     PolygonPage.sName: (_) => const PolygonPage(),
   };
 

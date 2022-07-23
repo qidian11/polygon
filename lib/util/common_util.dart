@@ -7,16 +7,18 @@ class CommonUtil {
   static NavigatorState navigatorState = navigatorKey.currentState!;
   static Map<String, CustomPainter> page2painter = {
     Circle2LinePage.sName: Circle2LinePainter(),
-    GridPage.sName: GridPainter(),
     LineLoadingPage.sName: LineLoadingPainter(),
     PaperPage.sName: PaperPainter(),
+    PerlinNoise2dPage.sName: PerlinNoise2dPainter(),
+    PerlinNoise1dPage.sName: PerlinNoise1dPainter(),
     PolygonPage.sName: PolygonPainter(),
   };
   static List<String> pageList = [
     Circle2LinePage.sName,
-    GridPage.sName,
     LineLoadingPage.sName,
     PaperPage.sName,
+    PerlinNoise1dPage.sName,
+    PerlinNoise2dPage.sName,
     PolygonPage.sName,
   ];
 }

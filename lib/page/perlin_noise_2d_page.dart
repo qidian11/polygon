@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
 import 'package:polygon/util/index.dart';
 
-class PolygonPage extends StatefulWidget {
-  const PolygonPage({Key? key}) : super(key: key);
-  static const String sName = "PolygonPage";
+class PerlinNoise2dPage extends StatefulWidget {
+  const PerlinNoise2dPage({Key? key}) : super(key: key);
+  static const String sName = "PerlinNoisePage2d";
   @override
-  State<PolygonPage> createState() => _PolygonPageState();
+  State<PerlinNoise2dPage> createState() => _PerlinNoise2dPageState();
 }
 
-class _PolygonPageState extends State<PolygonPage>
+class _PerlinNoise2dPageState extends State<PerlinNoise2dPage>
     with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   late Tween<double> _tween;
@@ -75,7 +75,7 @@ class _PolygonPageState extends State<PolygonPage>
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: PolygonPainter(progress: sides),
+                        painter: PerlinNoise2dPainter(progress: sides),
                       ),
                     ),
                     const SizedBox(
@@ -123,23 +123,19 @@ class _PolygonPageState extends State<PolygonPage>
                       height: 20,
                       child: Slider.adaptive(
                         value: sides,
-                        max: 20,
+                        max: 200,
                         mouseCursor: SystemMouseCursors.basic,
                         activeColor: const Color(0xFF2C343A),
                         inactiveColor: const Color(0xFF56596B),
                         onChanged: (_value) {
-                          print("sides:$sides");
-                          print("onChanged : $_value");
                           updateSlider(_value, "onChanged : $_value",
                               isChange: true);
                         },
                         onChangeStart: (_value) {
-                          print("onChangeStart : $_value");
                           updateSlider(_value, "onChangeStart : $_value",
                               isChange: true);
                         },
                         onChangeEnd: (_value) {
-                          print("onChangeEnd : $_value");
                           updateSlider(_value, "onChangeEnd : $_value");
                         },
                       ),

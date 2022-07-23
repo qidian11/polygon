@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
+import 'package:polygon/util/index.dart';
 
-class GridPage extends StatefulWidget {
-  const GridPage({Key? key}) : super(key: key);
-  static const String sName = "GridPage";
+class PerlinNoise1dPage extends StatefulWidget {
+  const PerlinNoise1dPage({Key? key}) : super(key: key);
+  static const String sName = "PerlinNoisePage1d";
   @override
-  State<GridPage> createState() => _GridPageState();
+  State<PerlinNoise1dPage> createState() => _PerlinNoise1dPageState();
 }
 
-class _GridPageState extends State<GridPage>
+class _PerlinNoise1dPageState extends State<PerlinNoise1dPage>
     with SingleTickerProviderStateMixin {
   late Animation<double> _animation;
   late Tween<double> _tween;
@@ -74,7 +75,16 @@ class _GridPageState extends State<GridPage>
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: GridPainter(),
+                        painter: PerlinNoise1dPainter(progress: sides),
+                        // painter: LineLoadingPainter(progress: sides),
+                        // Circle2LinePainter(radius: 100, progress: sides),
+                        // painter: PolygonPainter(
+                        //   sides: sides,
+                        //   radius: canvasWidth / 2,
+                        //   showDots: showDots,
+                        //   showDiagonal: showDiagonal,
+                        //   progress: progress,
+                        // ),
                       ),
                     ),
                     const SizedBox(
@@ -127,24 +137,29 @@ class _GridPageState extends State<GridPage>
                         activeColor: const Color(0xFF2C343A),
                         inactiveColor: const Color(0xFF56596B),
                         onChanged: (_value) {
-                          print("sides:$sides");
-                          print("onChanged : $_value");
                           updateSlider(_value, "onChanged : $_value",
                               isChange: true);
                         },
                         onChangeStart: (_value) {
-                          print("onChangeStart : $_value");
                           updateSlider(_value, "onChangeStart : $_value",
                               isChange: true);
                         },
                         onChangeEnd: (_value) {
-                          print("onChangeEnd : $_value");
                           updateSlider(_value, "onChangeEnd : $_value");
                         },
                       ),
                     )
                   ]),
             ),
+          ),
+          Positioned(
+            top: 100,
+            left: 100,
+            child: GestureDetector(
+                child: Icon(Icons.arrow_back),
+                onTap: () {
+                  NavigationUtil.instance.pop();
+                }),
           ),
         ],
       ),

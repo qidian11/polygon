@@ -56,9 +56,6 @@ class _FrameWidgetState extends State<FrameWidget>
       case Circle2LinePage.sName:
         painter = Circle2LinePainter();
         break;
-      case GridPage.sName:
-        painter = GridPainter();
-        break;
       case LineLoadingPage.sName:
         painter = LineLoadingPainter();
         break;
@@ -69,6 +66,12 @@ class _FrameWidgetState extends State<FrameWidget>
         break;
       case PolygonPage.sName:
         painter = PolygonPainter();
+        break;
+      case PerlinNoise1dPage.sName:
+        painter = PerlinNoise1dPainter();
+        break;
+      case PerlinNoise2dPage.sName:
+        painter = PerlinNoise2dPainter();
         break;
     }
     painter!.progress = progress * painter.maxProgress;

@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'dart:math';
+
 extension StringExtension on String {
   bool get isPic {
     if (this.endsWith('jpg') ||
@@ -49,36 +52,17 @@ extension StringExtension on String {
   }
 }
 
-class FileUtil {
-  static FileUtil instance = FileUtil._internal();
-  factory FileUtil() {
-    return instance;
+extension OffsetExtension on Offset {
+  double dot(Offset b) {
+    return dx * b.dx + dy * b.dy;
   }
-  static String? temporaryDirectory;
-  FileUtil._internal();
-  List mediaList = [];
-  List getFileList(List filse) {
-    List dirList = [];
-    List picList = [];
-    List vidoeList = [];
-    List audioList = [];
-    List fileLsit = [];
-    for (int i = 0; i < filse.length; i++) {
-      var file = filse[i];
-      String fileName = file['name'];
-      if (file['dir']) {
-        dirList.add(file);
-      } else if (fileName.isAudio) {
-        audioList.add(file);
-      } else if (fileName.isPic) {
-        picList.add(file);
-      } else if (fileName.isVideo) {
-        vidoeList.add(file);
-      } else {
-        fileLsit.add(file);
-      }
+
+  Offset rotate(double angle) {
+    if (angle == 0) {
+      return this;
     }
-    mediaList = picList + vidoeList;
-    return dirList + audioList + picList + vidoeList + fileLsit;
+    double cosAngle = cos(angle);
+    double sinAngle = sin(angle);
+    return Offset(dx * cosAngle + dy * sinAngle, dy * cosAngle - dx * sinAngle);
   }
 }

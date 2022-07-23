@@ -50,7 +50,7 @@ class PolygonPainter extends MyPainter {
       double angle = (progress - 12) * pi / 8 - pi / 2;
       scale = sin(angle) / 3.333 + 0.7;
     }
-    // line curve
+    // linear curve
     // 0->8:0.4->0.8 8->12:0.8->0.4 12->20:0.4->1
     // if (sides.ceil() <= 8) {
     //   scale = 0.4 + 0.05 * sides;
@@ -60,6 +60,7 @@ class PolygonPainter extends MyPainter {
     //   scale = 0.4 + 0.6 / 8 * (sides - 12);
     // }
     // print('scale:$scale,sides:$progress');
+
     // odd curve
     // 偶变奇，斜率0.1，奇数变偶数，斜率-0.04，初始scale 0.4
     // double k1 = 0.5;
