@@ -66,3 +66,9 @@ extension OffsetExtension on Offset {
     return Offset(dx * cosAngle + dy * sinAngle, dy * cosAngle - dx * sinAngle);
   }
 }
+
+extension doubleExtension on double {
+  double get square {
+    return this * this;
+  }
+}

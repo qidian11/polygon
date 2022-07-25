@@ -76,8 +76,31 @@ class _FrameWidgetState extends State<FrameWidget>
       case WorleyNoisePage.sName:
         painter = WorleyNoisePainter();
         break;
+      case SphereNoisePage.sName:
+        painter = SphereNoisePainter();
+        break;
+      case MoonPage.sName:
+        break;
     }
-    painter!.progress = progress * painter.maxProgress;
+    painter?.progress = progress * painter.maxProgress;
+    Color color = Colors.white;
+    Widget child;
+    if (CommonUtil.pageList[index] == MoonPage.sName) {
+      color = const Color(0xFF47484B);
+      child = FutureBuilder(
+        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
+          if (snapshot.hasData) {
+            painter = MoontPainter();
+            return Image.asset('assets/230644xki6ea7bxixkterr.jpg');
+          } else {
+            return const SizedBox();
+          }
+        },
+        future: MoonUtil.setImage(MoonUtil.imagePath),
+      );
+    } else {
+      child = CustomPaint(painter: painter);
+    }
     return GestureDetector(
       onTap: () {
         NavigationUtil.instance.pushNamed(CommonUtil.pageList[index]);
@@ -92,7 +115,7 @@ class _FrameWidgetState extends State<FrameWidget>
             height: 3 * height / 4,
             padding: EdgeInsets.all(framePadding),
             decoration: BoxDecoration(
-                color: Colors.white,
+                color: color,
                 border: Border.all(
                     color: const Color(0xFF2C343A), width: frameBorderWidth),
                 boxShadow: [
@@ -105,7 +128,7 @@ class _FrameWidgetState extends State<FrameWidget>
               clipBehavior: Clip.hardEdge,
               decoration: const BoxDecoration(),
               // child: CustomPaint(painter: painter),
-              child: CustomPaint(painter: painter),
+              child: child,
             ),
           ),
         ),

@@ -15,7 +15,7 @@ class WorleyNoisePainter extends CustomPainter {
       int x = i - 100;
       for (int j = 0; j < 200; j++) {
         int y = j - 100;
-        double value = WorleyNoise.getWorleyNoise(i * 0.05, y * 0.05);
+        double value = WorleyNoise.getWorleyNoise(i * 0.02, y * 0.02);
         int colorValue = (value * 255).round();
         Color color = Color.fromARGB(255, colorValue, colorValue, colorValue);
         paint.color = color;

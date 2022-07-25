@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
 import 'package:polygon/util/index.dart';
@@ -39,8 +40,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int crossAxisCount = 3;
   Offset frameShadowOffset = const Offset(10, 0);
   double crossAxisSpacing = 100;
-  late double width;
-  late double height;
+  double width = 0;
+  double height = 0;
   double progress = 0;
   @override
   void initState() {
@@ -51,14 +52,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    width = (MediaQuery.of(context).size.width -
-            (crossAxisCount + 1) * crossAxisSpacing) /
-        crossAxisCount;
-    height = width;
   }
 
   @override
   Widget build(BuildContext context) {
+    if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
+      crossAxisCount = 3;
+    } else {
+      crossAxisCount = 2;
+      crossAxisSpacing = 20;
+    }
+    width = (MediaQuery.of(context).size.width -
+            (crossAxisCount + 1) * crossAxisSpacing) /
+        crossAxisCount;
+    height = width;
+
     List<Widget> widgets = getWidgets();
     return Scaffold(
       body: GridView(
