@@ -62,21 +62,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       crossAxisCount = 2;
       crossAxisSpacing = 20;
     }
-    width = (MediaQuery.of(context).size.width -
-            (crossAxisCount + 1) * crossAxisSpacing) /
-        crossAxisCount;
-    height = width;
 
-    List<Widget> widgets = getWidgets();
     return Scaffold(
-      body: GridView(
-        padding: EdgeInsets.all(crossAxisSpacing),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            mainAxisSpacing: 25.0,
-            crossAxisSpacing: crossAxisSpacing,
-            childAspectRatio: 1),
-        children: widgets,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          width = (MediaQuery.of(context).size.width -
+                  (crossAxisCount + 1) * crossAxisSpacing) /
+              crossAxisCount;
+          height = width;
+          List<Widget> widgets = getWidgets();
+          return GridView(
+            padding: EdgeInsets.all(crossAxisSpacing),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: crossAxisCount,
+                mainAxisSpacing: 25.0,
+                crossAxisSpacing: crossAxisSpacing,
+                childAspectRatio: 1),
+            children: widgets,
+          );
+        },
       ),
     );
   }

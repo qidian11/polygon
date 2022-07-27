@@ -8,7 +8,7 @@ class CommonUtil {
   static Map<String, CustomPainter> page2painter = {
     Circle2LinePage.sName: Circle2LinePainter(),
     LineLoadingPage.sName: LineLoadingPainter(),
-    MoonPage.sName: MoontPainter(),
+    MoonPage.sName: MoonPainter(),
     PaperPage.sName: PaperPainter(),
     PerlinNoise2dPage.sName: PerlinNoise2dPainter(),
     PerlinNoise1dPage.sName: PerlinNoise1dPainter(),

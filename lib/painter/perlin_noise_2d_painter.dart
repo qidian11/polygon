@@ -26,16 +26,17 @@ class PerlinNoise2dPainter extends CustomPainter {
         int color = (value * 255).round();
         if (color > 200) {
           color = 0;
+          paint.color = Color.fromARGB(255, color, color, color);
+          // paint.color = Color(0xFF000000);
+          canvas.drawCircle(Offset(x.toDouble(), y.toDouble()), 1, paint);
         } else if (color > 128) {
           color = 255;
         } else {
           color = 0;
+          paint.color = Color.fromARGB(255, color, color, color);
+          // paint.color = Color(0xFF000000);
+          canvas.drawCircle(Offset(x.toDouble(), y.toDouble()), 1, paint);
         }
-
-        color = color;
-        paint.color = Color.fromARGB(255, color, color, color);
-        // paint.color = Color(0xFF000000);
-        canvas.drawCircle(Offset(x.toDouble(), y.toDouble()), 1, paint);
       }
     }
   }

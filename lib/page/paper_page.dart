@@ -11,14 +11,15 @@ class PaperPage extends StatefulWidget {
 
 class _PaperPageState extends State<PaperPage>
     with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late Tween<double> _tween;
-  late AnimationController _animationController;
-  double sides = 0;
-  double progress = 0.0;
-  double maxSides = 20.0;
+  // late Animation<double> _animation;
+  // late Tween<double> _tween;
+  // late AnimationController _animationController;
+  double progress = 0;
+
   String sliderText = '0.0';
-  double canvasWidth = 500;
+  double canvasWidth = 300;
+  double canvasHeight = 400;
+  double maxSides = 300;
   bool showDots = false;
   bool showDiagonal = true;
   // 是否正在滑动
@@ -28,20 +29,20 @@ class _PaperPageState extends State<PaperPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tween = Tween(begin: 0.0, end: 1.0);
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 60), vsync: this);
-    _animation = _tween.animate(_animationController)
-      ..addListener(() {
-        setState(() {
-          progress = _animation.value;
-        });
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _animationController.reverse();
-        }
-      });
+    // _tween = Tween(begin: 0.0, end: 1.0);
+    // _animationController =
+    //     AnimationController(duration: const Duration(seconds: 60), vsync: this);
+    // _animation = _tween.animate(_animationController)
+    //   ..addListener(() {
+    //     setState(() {
+    //       progress = _animation.value;
+    //     });
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       _animationController.reverse();
+    //     }
+    //   });
   }
 
   @override
@@ -71,64 +72,27 @@ class _PaperPageState extends State<PaperPage>
                     ),
                     Container(
                       width: canvasWidth,
-                      height: canvasWidth,
+                      height: canvasHeight,
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: PaperPainter(progress: sides),
+                        painter: PaperPainter(progress: progress),
                       ),
                     ),
                     const SizedBox(
                       height: 200,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show Dots'),
-                        ),
-                        Switch(
-                          value: showDots,
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true &&
-                                  sides == 20 &&
-                                  !isSidesChange) {
-                                _animationController.repeat(reverse: true);
-                                showDots = value;
-                              } else {
-                                _animationController.stop();
-                                showDots = value;
-                              }
-                            });
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show diagonal'),
-                        ),
-                        Switch(
-                          value: showDiagonal,
-                          onChanged: (value) {
-                            setState(() {
-                              showDiagonal = value;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
                     SizedBox(
                       width: 500,
                       height: 20,
                       child: Slider.adaptive(
-                        value: sides,
-                        max: 200,
+                        value: progress,
+                        max: maxSides,
                         mouseCursor: SystemMouseCursors.basic,
                         activeColor: const Color(0xFF2C343A),
                         inactiveColor: const Color(0xFF56596B),
                         onChanged: (_value) {
-                          print("sides:$sides");
+                          print("sides:$progress");
                           print("onChanged : $_value");
                           updateSlider(_value, "onChanged : $_value",
                               isChange: true);
@@ -162,20 +126,7 @@ class _PaperPageState extends State<PaperPage>
   }
 
   void updateSlider(double _value, String text, {bool isChange = false}) {
-    sides = _value;
-    sliderText = text;
-    isSidesChange = isChange;
-    if (isSidesChange) {
-      showDots = false;
-      _animationController.stop();
-    }
-    if (_value == maxSides) {
-      showDots = true;
-      if (_animationController.status != AnimationStatus.forward ||
-          _animationController.status != AnimationStatus.reverse) {
-        _animationController.repeat(reverse: true);
-      }
-    }
+    progress = _value;
     setState(() {});
   }
 }

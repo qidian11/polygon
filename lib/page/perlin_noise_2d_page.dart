@@ -11,9 +11,9 @@ class PerlinNoise2dPage extends StatefulWidget {
 
 class _PerlinNoise2dPageState extends State<PerlinNoise2dPage>
     with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late Tween<double> _tween;
-  late AnimationController _animationController;
+  // late Animation<double> _animation;
+  // late Tween<double> _tween;
+  // late AnimationController _animationController;
   double sides = 0;
   double progress = 0.0;
   double maxSides = 20.0;
@@ -28,20 +28,20 @@ class _PerlinNoise2dPageState extends State<PerlinNoise2dPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tween = Tween(begin: 0.0, end: 1.0);
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 60), vsync: this);
-    _animation = _tween.animate(_animationController)
-      ..addListener(() {
-        setState(() {
-          progress = _animation.value;
-        });
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _animationController.reverse();
-        }
-      });
+    // _tween = Tween(begin: 0.0, end: 1.0);
+    // _animationController =
+    //     AnimationController(duration: const Duration(seconds: 60), vsync: this);
+    // _animation = _tween.animate(_animationController)
+    //   ..addListener(() {
+    //     setState(() {
+    //       progress = _animation.value;
+    //     });
+    //   })
+    //   ..addStatusListener((status) {
+    //     if (status == AnimationStatus.completed) {
+    //       _animationController.reverse();
+    //     }
+    //   });
   }
 
   @override
@@ -80,43 +80,6 @@ class _PerlinNoise2dPageState extends State<PerlinNoise2dPage>
                     ),
                     const SizedBox(
                       height: 200,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show Dots'),
-                        ),
-                        Switch(
-                          value: showDots,
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true &&
-                                  sides == 20 &&
-                                  !isSidesChange) {
-                                _animationController.repeat(reverse: true);
-                                showDots = value;
-                              } else {
-                                _animationController.stop();
-                                showDots = value;
-                              }
-                            });
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show diagonal'),
-                        ),
-                        Switch(
-                          value: showDiagonal,
-                          onChanged: (value) {
-                            setState(() {
-                              showDiagonal = value;
-                            });
-                          },
-                        ),
-                      ],
                     ),
                     SizedBox(
                       width: 500,
@@ -161,17 +124,6 @@ class _PerlinNoise2dPageState extends State<PerlinNoise2dPage>
     sides = _value;
     sliderText = text;
     isSidesChange = isChange;
-    if (isSidesChange) {
-      showDots = false;
-      _animationController.stop();
-    }
-    if (_value == maxSides) {
-      showDots = true;
-      if (_animationController.status != AnimationStatus.forward ||
-          _animationController.status != AnimationStatus.reverse) {
-        _animationController.repeat(reverse: true);
-      }
-    }
     setState(() {});
   }
 }

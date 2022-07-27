@@ -87,17 +87,7 @@ class _FrameWidgetState extends State<FrameWidget>
     Widget child;
     if (CommonUtil.pageList[index] == MoonPage.sName) {
       color = const Color(0xFF47484B);
-      child = FutureBuilder(
-        builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
-          if (snapshot.hasData) {
-            painter = MoontPainter();
-            return Image.asset('assets/230644xki6ea7bxixkterr.jpg');
-          } else {
-            return const SizedBox();
-          }
-        },
-        future: MoonUtil.setImage(MoonUtil.imagePath),
-      );
+      child = Image.asset('assets/230644xki6ea7bxixkterr.jpg');
     } else {
       child = CustomPaint(painter: painter);
     }

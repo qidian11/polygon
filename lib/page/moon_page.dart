@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:polygon/painter/index.dart';
@@ -12,11 +13,7 @@ class MoonPage extends StatefulWidget {
 
 class _MoonPageState extends State<MoonPage>
     with SingleTickerProviderStateMixin {
-  late Animation<double> _animation;
-  late Tween<double> _tween;
-  late AnimationController _animationController;
-  double sides = 0;
-  double progress = 0.0;
+  double progress = 0;
   double maxSides = 20.0;
   String sliderText = '0.0';
   double canvasWidth = 500;
@@ -29,24 +26,27 @@ class _MoonPageState extends State<MoonPage>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tween = Tween(begin: 0.0, end: 1.0);
-    _animationController =
-        AnimationController(duration: const Duration(seconds: 60), vsync: this);
-    _animation = _tween.animate(_animationController)
-      ..addListener(() {
-        setState(() {
-          progress = _animation.value;
-        });
-      })
-      ..addStatusListener((status) {
-        if (status == AnimationStatus.completed) {
-          _animationController.reverse();
-        }
+  }
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    if (MoonUtil.image == null) {
+      MoonUtil.setImage(MoonUtil.imagePath, callBack: () {
+        setState(() {});
       });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget child;
+    if (MoonUtil.image != null) {
+      child = CustomPaint(painter: MoonPainter(progress: progress));
+    } else {
+      child = const Text('Loading...');
+    }
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
@@ -74,55 +74,16 @@ class _MoonPageState extends State<MoonPage>
                       height: canvasWidth,
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
-                      child: CustomPaint(
-                        painter: MoontPainter(progress: sides),
-                      ),
+                      child: child,
                     ),
                     const SizedBox(
                       height: 200,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show Dots'),
-                        ),
-                        Switch(
-                          value: showDots,
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true &&
-                                  sides == 20 &&
-                                  !isSidesChange) {
-                                _animationController.repeat(reverse: true);
-                                showDots = value;
-                              } else {
-                                _animationController.stop();
-                                showDots = value;
-                              }
-                            });
-                          },
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.only(left: 24.0, right: 0.0),
-                          child: Text('Show diagonal'),
-                        ),
-                        Switch(
-                          value: showDiagonal,
-                          onChanged: (value) {
-                            setState(() {
-                              showDiagonal = value;
-                            });
-                          },
-                        ),
-                      ],
                     ),
                     SizedBox(
                       width: 500,
                       height: 20,
                       child: Slider.adaptive(
-                        value: sides,
+                        value: progress,
                         max: 4 * pi,
                         mouseCursor: SystemMouseCursors.basic,
                         activeColor: const Color(0xFF2C343A),
@@ -147,7 +108,10 @@ class _MoonPageState extends State<MoonPage>
             top: 100,
             left: 100,
             child: GestureDetector(
-                child: Icon(Icons.arrow_back),
+                child: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                ),
                 onTap: () {
                   NavigationUtil.instance.pop();
                 }),
@@ -158,20 +122,10 @@ class _MoonPageState extends State<MoonPage>
   }
 
   void updateSlider(double _value, String text, {bool isChange = false}) {
-    sides = _value;
+    progress = _value;
     sliderText = text;
     isSidesChange = isChange;
-    if (isSidesChange) {
-      showDots = false;
-      _animationController.stop();
-    }
-    if (_value == maxSides) {
-      showDots = true;
-      if (_animationController.status != AnimationStatus.forward ||
-          _animationController.status != AnimationStatus.reverse) {
-        _animationController.repeat(reverse: true);
-      }
-    }
+
     setState(() {});
   }
 }

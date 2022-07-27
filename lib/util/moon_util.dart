@@ -1,4 +1,5 @@
-import 'dart:io';
+import 'dart:ui';
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:async';
 import 'dart:typed_data';
@@ -16,11 +17,12 @@ class MoonUtil {
     return instance;
   }
 
-  static Future<bool> setImage(String path) async {
+  static Future<bool> setImage(String path, {Function? callBack}) async {
     ByteData byteData = await rootBundle.load(path);
     Uint8List data = byteData.buffer
         .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
     image = mImage.decodeImage(data);
+    callBack?.call();
     return true;
   }
 
