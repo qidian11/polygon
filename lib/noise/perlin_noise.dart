@@ -63,24 +63,35 @@ class PerlinNoise {
     double xf = x - x.floor();
     double yf = y - y.floor();
 
-    int xIndex = x.floor();
-    int yIndex = y.floor();
+    int xFloor = x.floor();
+    int yFloor = y.floor();
+    int xCeil = xFloor + 1;
+    int yCeil = yFloor + 1;
+    if (xFloor < 0) {
+      xFloor = NoiseUtil.permutation[23] + xFloor.abs();
+      if (xCeil != 0) {
+        xCeil = NoiseUtil.permutation[23] + xCeil.abs();
+      }
+    }
+    if (yFloor < 0) {
+      yFloor = NoiseUtil.permutation[76] + yFloor.abs();
+      if (yCeil != 0) {
+        yCeil = NoiseUtil.permutation[76] + yCeil.abs();
+      }
+    }
 
     int topLeftValue = NoiseUtil.permutation[
-        (NoiseUtil.permutation[xIndex % NoiseUtil.permutation.length] +
-                yIndex) %
+        (NoiseUtil.permutation[xFloor % NoiseUtil.permutation.length] +
+                yFloor) %
             NoiseUtil.permutation.length];
     int bottomLeftValue = NoiseUtil.permutation[
-        (NoiseUtil.permutation[xIndex % NoiseUtil.permutation.length] +
-                (yIndex + 1)) %
+        (NoiseUtil.permutation[xFloor % NoiseUtil.permutation.length] + yCeil) %
             NoiseUtil.permutation.length];
     int topRightValue = NoiseUtil.permutation[
-        (NoiseUtil.permutation[(xIndex + 1) % NoiseUtil.permutation.length] +
-                yIndex) %
+        (NoiseUtil.permutation[xCeil % NoiseUtil.permutation.length] + yFloor) %
             NoiseUtil.permutation.length];
     int bottomRightValue = NoiseUtil.permutation[
-        (NoiseUtil.permutation[(xIndex + 1) % NoiseUtil.permutation.length] +
-                (yIndex + 1)) %
+        (NoiseUtil.permutation[xCeil % NoiseUtil.permutation.length] + yCeil) %
             NoiseUtil.permutation.length];
     Offset topLeftVector = getConstantVector(topLeftValue, rotation: rotation);
     Offset bottomLeftVector =
