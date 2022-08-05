@@ -45,6 +45,13 @@ class _PolygonPageState extends State<PolygonPage>
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -75,7 +82,11 @@ class _PolygonPageState extends State<PolygonPage>
                       decoration: const BoxDecoration(),
                       clipBehavior: Clip.hardEdge,
                       child: CustomPaint(
-                        painter: PolygonPainter(progress: sides),
+                        painter: PolygonPainter(
+                            progress: sides,
+                            radius: canvasWidth / 2,
+                            showDots: showDots,
+                            dotProgress: progress),
                       ),
                     ),
                     const SizedBox(

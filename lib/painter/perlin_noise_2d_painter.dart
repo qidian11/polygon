@@ -17,9 +17,9 @@ class PerlinNoise2dPainter extends CustomPainter {
       ..color = const Color(0xFF2C343A)
       ..strokeWidth = 1.0;
     double x, y;
-    for (int i = -500; i < 500; i++) {
+    for (int i = -100; i < 100; i++) {
       x = i.toDouble();
-      for (int j = -500; j < 500; j++) {
+      for (int j = -100; j < 100; j++) {
         y = j.toDouble();
         // print('progress:$progress,this rotation:$rotation');
         double value = PerlinNoise.getD2PerlinNoise(i * scale, j * scale,

@@ -17,7 +17,7 @@ class LineLoadingPainter extends MyPainter {
       {this.totalLength = 500.0,
       this.lineNum = 40,
       this.progress = 5.0,
-      this.maxProgress = 20.0,
+      this.maxProgress = 200,
       this.lineSpace = 4.0});
   @override
   void paint(Canvas canvas, Size size) {

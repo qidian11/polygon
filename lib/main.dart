@@ -35,7 +35,8 @@ class MyHomePage extends StatefulWidget {
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+class _MyHomePageState extends State<MyHomePage>
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   double frameBorderWidth = 8.0;
   int crossAxisCount = 3;
   Offset frameShadowOffset = const Offset(10, 0);
@@ -43,52 +44,79 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   double width = 0;
   double height = 0;
   double progress = 0;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     if (Platform.isLinux || Platform.isWindows || Platform.isMacOS) {
       crossAxisCount = 3;
     } else {
       crossAxisCount = 2;
       crossAxisSpacing = 20;
     }
+    width = (MediaQuery.of(context).size.width -
+            (crossAxisCount + 1) * crossAxisSpacing) /
+        crossAxisCount;
+    height = width;
+  }
 
+  @override
+  void didChangeMetrics() {
+    // TODO: implement didChangeMetrics
+    width = (MediaQuery.of(context).size.width -
+            (crossAxisCount + 1) * crossAxisSpacing) /
+        crossAxisCount;
+    height = width;
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    width = (MediaQuery.of(context).size.width -
+            (crossAxisCount + 1) * crossAxisSpacing) /
+        crossAxisCount;
+    List<Widget> widgets = [];
+    for (int i = 0; i < CommonUtil.pageList.length; i++) {
+      widgets.add(FrameWidget(index: i, width: width));
+    }
+    // List<Widget> widgets = List.generate(CommonUtil.pageList.length, (index) {
+    //   return FrameWidget(index: index, width: width);
+    // });
     return Scaffold(
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          width = (MediaQuery.of(context).size.width -
-                  (crossAxisCount + 1) * crossAxisSpacing) /
-              crossAxisCount;
-          height = width;
-          List<Widget> widgets = getWidgets();
-          return GridView(
-            padding: EdgeInsets.all(crossAxisSpacing),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: crossAxisCount,
-                mainAxisSpacing: 25.0,
-                crossAxisSpacing: crossAxisSpacing,
-                childAspectRatio: 1),
-            children: widgets,
-          );
-        },
+      body: GridView(
+        padding: EdgeInsets.all(crossAxisSpacing),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            mainAxisSpacing: 25.0,
+            crossAxisSpacing: crossAxisSpacing,
+            childAspectRatio: 1),
+        children: widgets,
       ),
     );
   }
 
-  List<Widget> getWidgets() {
-    List<Widget> widgets = List.generate(CommonUtil.pageList.length, (index) {
-      return FrameWidget(index: index, width: width);
-    });
+  List<Widget> getWidgets(double width) {
+    List<Widget> widgets = [];
+    for (int i = 0; i < CommonUtil.pageList.length; i++) {
+      widgets.add(FrameWidget(index: i, width: width));
+    }
+    // List<Widget> widgets = List.generate(CommonUtil.pageList.length, (index) {
+    //   return FrameWidget(index: index, width: width);
+    // });
     return widgets;
   }
 }

@@ -50,6 +50,20 @@ class _FrameWidgetState extends State<FrameWidget>
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    index = widget.index;
+    if (CommonUtil.pageList[index] == MoonPage.sName &&
+        MoonUtil.image == null) {
+      MoonUtil.setImage(MoonUtil.imagePath, callBack: () {
+        setState(() {});
+      });
+    }
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     dynamic painter = PolygonPainter();
     switch (CommonUtil.pageList[index]) {
@@ -80,14 +94,20 @@ class _FrameWidgetState extends State<FrameWidget>
         painter = SphereNoisePainter();
         break;
       case MoonPage.sName:
+        painter = MoonPainter(radius: 75);
         break;
     }
     painter?.progress = progress * painter.maxProgress;
     Color color = Colors.white;
     Widget child;
     if (CommonUtil.pageList[index] == MoonPage.sName) {
-      color = const Color(0xFF47484B);
-      child = Image.asset('assets/230644xki6ea7bxixkterr.jpg');
+      if (MoonUtil.image == null) {
+        color = const Color(0xFF47484B);
+        child = Image.asset('assets/230644xki6ea7bxixkterr.jpg');
+      } else {
+        color = Colors.black;
+        child = CustomPaint(painter: painter);
+      }
     } else {
       child = CustomPaint(painter: painter);
     }
@@ -130,6 +150,7 @@ class _FrameWidgetState extends State<FrameWidget>
   void dispose() {
     // TODO: implement dispose
     animationController.dispose();
+
     super.dispose();
   }
 }

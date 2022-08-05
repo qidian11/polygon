@@ -206,7 +206,7 @@ class PolygonPainter extends MyPainter {
     return oldDelegate.progress != progress ||
         oldDelegate.showDots != showDots ||
         oldDelegate.showDiagonal != showDiagonal ||
-        oldDelegate.progress != progress;
+        oldDelegate.dotProgress != dotProgress;
   }
 }
 

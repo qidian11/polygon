@@ -27,7 +27,12 @@ class Circle2LinePainter extends CustomPainter {
     for (int i = 0; i < lineNum; i++) {
       canvas.drawLine(p1, p2, paint);
       canvas.translate(p2.dx + 4, p2.dy);
-      canvas.rotate((progress / maxProgress) * 2 * pi / lineNum);
+      // circle
+      // canvas.rotate((progress / maxProgress) * 2 * pi / lineNum);
+
+      // lolipop
+      canvas.rotate(
+          (progress / maxProgress) * 2 * pi / lineNum + i / (2 * pi * lineNum));
     }
   }
 
